@@ -81,7 +81,7 @@ class ChooseLocationViewController: UIViewController,CLLocationManagerDelegate,G
         
         if segue.identifier == "chooseLocationToMain" {
             let viewController:MainViewController = segue.destination as! MainViewController
-            viewController.currentLocation = self.selectedLocation
+            viewController.selectedLocation = self.selectedLocation
         }
     }
     

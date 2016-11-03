@@ -12,6 +12,7 @@ import FacebookCore
 import FacebookLogin
 import SimpleAlert
 import Alamofire
+import KRProgressHUD
 
 
 class LoginViewController: UIViewController,CLLocationManagerDelegate {
@@ -60,27 +61,42 @@ class LoginViewController: UIViewController,CLLocationManagerDelegate {
     @IBAction func onClickedLogin(_ sender: AnyObject) {
         if (self.checkValidate()){
             
-//            let baseURL:String!
-//            baseURL = "baseurl"
-//            let url:String = baseURL+"/login?useremail="+txtEmail.text!+"&password="+txtPassword.text!
-//            Alamofire.request(url).responseJSON { response in
-//                print(response.request)  // original URL request
-//                print(response.response) // HTTP URL response
-//                print(response.data)     // server data
-//                print(response.result)   // result of response serialization
-//                
-//                if let JSON = response.result.value {
-//                    print("JSON: \(JSON)")
-//                }
-//            }
+            // call web service for Login
+            KRProgressHUD.show(message:"Logging in...")
+            //http://127.0.0.1:81/login?email=email@test.ru&password=test4
+            let url_temp = AppConstants.BASE_URL+"/login?email="+txtEmail.text!+"&password="+txtPassword.text!
+            let url = url_temp.addingPercentEscapes(using: String.Encoding.utf8)
             
-            UserDefaults.standard.set(txtEmail.text, forKey: "UserEmail")
-            UserDefaults.standard.set(txtPassword.text, forKey: "password")
-            UserDefaults.standard.set("test user", forKey: "UserName")
-            UserDefaults.standard.set("temp id", forKey: "UserID")
-            UserDefaults.standard.synchronize()
-            
-             self.performSegue(withIdentifier: "LoginToChooseLocation", sender: self)
+            Alamofire.request(url!).responseJSON { response in
+                print(response.request)  // original URL request
+                print(response.response) // HTTP URL response
+                print(response.data)     // server data
+                print(response.result)   // result of response serialization
+                
+                switch response.result {
+                case .success(let JSON):
+                    print("Success with JSON: \(JSON)")
+                    KRProgressHUD.dismiss()
+                    let responseDictionary = JSON as! NSDictionary
+                    let success = responseDictionary.object(forKey: "sucess")! as! Bool
+                    if (success){
+                        let userID:NSNumber = (responseDictionary["user_id"]) as! NSNumber
+                        //save email, user name, password = id
+                        UserDefaults.standard.set(self.txtEmail.text!, forKey: "UserEmail")
+                        UserDefaults.standard.set(self.txtPassword.text!, forKey: "password")
+                        UserDefaults.standard.set("user name", forKey: "UserName")
+                        UserDefaults.standard.set(String(describing: userID), forKey: "UserID")
+                        UserDefaults.standard.synchronize()
+                        self.performSegue(withIdentifier: "LoginToChooseLocation", sender: self)
+                    }else{
+                        let alert = AlertController(title: "Information!", message: "Sign up Failed", style: .alert)
+                        alert.addAction(AlertAction(title: "OK", style: .cancel))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                case .failure(let error):
+                    print("Request failed with error: \(error)")
+                }
+            }
         }
     }
     @IBAction func onClickedForgotPassword(_ sender: AnyObject) {

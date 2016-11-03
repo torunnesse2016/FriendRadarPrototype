@@ -15,4 +15,5 @@ target 'NearFriend' do
     pod 'GoogleMaps'
     pod "KRProgressHUD"
     pod "SimpleAlert"
+    pod 'SwiftyJSON'
 end

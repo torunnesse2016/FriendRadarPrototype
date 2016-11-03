@@ -12,6 +12,8 @@ import FacebookCore
 import FacebookLogin
 import KRProgressHUD
 import SimpleAlert
+import Alamofire
+import SwiftyJSON
 
 class SignupViewController: UIViewController {
 
@@ -37,31 +39,44 @@ class SignupViewController: UIViewController {
     @IBAction func onClickedSignup(_ sender: AnyObject) {
         
         if (self.checkValidate()){
+            KRProgressHUD.show(message:"Sign up...")
+            // http://127.0.0.1:81/signup?email=email@test.ru&password=test&username=test
+            let url_temp = AppConstants.BASE_URL+"/signup?email="+txtEmail.text!+"&password="+txtPassword.text!+"&username="+txtUsername.text!
+            let url = url_temp.addingPercentEscapes(using: String.Encoding.utf8)
             
             
-//            let baseURL:String!
-//            baseURL = "baseurl"
-//            let url:String = baseURL+"/signup?useremail="+txtEmail.text+"&username="+txtUsername.text+"&password="+txtPassword.text
-//            Alamofire.request(url).responseJSON { response in
-//                print(response.request)  // original URL request
-//                print(response.response) // HTTP URL response
-//                print(response.data)     // server data
-//                print(response.result)   // result of response serialization
-//                
-//                if let JSON = response.result.value {
-//                    print("JSON: \(JSON)")
-//                }
-//            }
-
             
-            //save email, user name, password = id
-            UserDefaults.standard.set(txtEmail.text, forKey: "UserEmail")
-            UserDefaults.standard.set(txtPassword.text, forKey: "password")
-            UserDefaults.standard.set(txtUsername.text, forKey: "UserName")
-            UserDefaults.standard.set("temp id", forKey: "UserID")
-            UserDefaults.standard.synchronize()
-            
-            self.performSegue(withIdentifier: "signupToChooseLocation", sender: self)
+            Alamofire.request(url!).responseJSON { response in
+                print(response.request)  // original URL request
+                print(response.response) // HTTP URL response
+                print(response.data)     // server data
+                print(response.result)   // result of response serialization
+                
+                switch response.result {
+                case .success(let JSON):
+                    print("Success with JSON: \(JSON)")
+                    KRProgressHUD.dismiss()
+                    let responseDictionary = JSON as! NSDictionary
+                    let success = responseDictionary.object(forKey: "sucess")! as! Bool
+                    if (success){
+                        let userID:NSNumber = (responseDictionary["user_id"]) as! NSNumber
+                        //save email, user name, password = id
+                        UserDefaults.standard.set(self.txtEmail.text, forKey: "UserEmail")
+                        UserDefaults.standard.set(self.txtPassword.text, forKey: "password")
+                        UserDefaults.standard.set(self.txtUsername.text, forKey: "UserName")
+                        UserDefaults.standard.set(String(describing: userID), forKey: "UserID")
+                        UserDefaults.standard.synchronize()
+                        self.performSegue(withIdentifier: "signupToChooseLocation", sender: self)
+                    }else{
+                        let alert = AlertController(title: "Information!", message: "Sign up Failed", style: .alert)
+                        alert.addAction(AlertAction(title: "OK", style: .cancel))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    
+                case .failure(let error):
+                    print("Request failed with error: \(error)")
+                }
+            }
         }
         
     }
@@ -92,11 +107,6 @@ class SignupViewController: UIViewController {
             message = "Please input User Name."
             isDiplayAlert = true
         }
-       
-        
-        
-        
-        
         
         if isDiplayAlert {
             let alert = AlertController(title: "Information!", message: message, style: .alert)
@@ -139,36 +149,51 @@ class SignupViewController: UIViewController {
                         let name:String = user.object(forKey: "name") as! String
                         let id:String = user.object(forKey: "id") as! String
 
+                        // call web service for sign up
+                        KRProgressHUD.show(message:"Sign up...")
+                        // http://127.0.0.1:81/signup_fb?email=email_fb3@test.ru&facebookid=102030405&username=test
+                        let url_temp = AppConstants.BASE_URL+"/signup_fb?email="+email+"&facebookid="+id+"&username="+name
                         
-//                        let baseURL:String!
-//                        baseURL = "baseurl"
-//                        let url:String = baseURL+"/fbsignup?useremail="+email+"&username="+name+"&userid="+id
-//                        Alamofire.request(url).responseJSON { response in
-//                            print(response.request)  // original URL request
-//                            print(response.response) // HTTP URL response
-//                            print(response.data)     // server data
-//                            print(response.result)   // result of response serialization
-//                            
-//                            if let JSON = response.result.value {
-//                                print("JSON: \(JSON)")
-//                            }
-//                        }
+                        let url = url_temp.addingPercentEscapes(using: String.Encoding.utf8)
                         
                         
-                        //save email, user name, password = id
-                        UserDefaults.standard.set(email, forKey: "UserEmail")
-                        UserDefaults.standard.set("temppassword", forKey: "password")
-                        UserDefaults.standard.set(name, forKey: "UserName")
-                        UserDefaults.standard.set(id, forKey: "UserID")
-                        UserDefaults.standard.synchronize()
-
-                        
-                        
-                        
-                        self.performSegue(withIdentifier: "signupToChooseLocation", sender: self)
+                        Alamofire.request(url!).responseJSON { response in
+                            print(response.request)  // original URL request
+                            print(response.response) // HTTP URL response
+                            print(response.data)     // server data
+                            print(response.result)   // result of response serialization
+                            
+                            switch response.result {
+                            case .success(let JSON):
+                                print("Success with JSON: \(JSON)")
+                                KRProgressHUD.dismiss()
+                                let responseDictionary = JSON as! NSDictionary
+                                let success = responseDictionary.object(forKey: "sucess")! as! Bool
+                                if (success){
+                                    let userID:NSNumber = (responseDictionary["user_id"]) as! NSNumber
+                                    //save email, user name, password = id
+                                    UserDefaults.standard.set(email, forKey: "UserEmail")
+                                    UserDefaults.standard.set("facebook_signup", forKey: "password")
+                                    UserDefaults.standard.set(name, forKey: "UserName")
+                                    UserDefaults.standard.set(String(describing: userID), forKey: "UserID")
+                                    UserDefaults.standard.synchronize()
+                                    self.performSegue(withIdentifier: "signupToChooseLocation", sender: self)
+                                }else{
+                                    let alert = AlertController(title: "Information!", message: "Sign up Failed", style: .alert)
+                                    alert.addAction(AlertAction(title: "OK", style: .cancel))
+                                    self.present(alert, animated: true, completion: nil)
+                                }
+                                
+                            case .failure(let error):
+                               KRProgressHUD.dismiss()
+                                print("Request failed with error: \(error)")
+                            }
+                            
+                        }
                     }
                     else
                     {
+                        KRProgressHUD.dismiss()
                         print("error \(error)")
                     }
                 })

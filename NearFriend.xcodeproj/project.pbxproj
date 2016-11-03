@@ -16,6 +16,10 @@
 		B0BBCBAD1DC82F17006CF5BA /* ChooseLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BBCBAC1DC82F17006CF5BA /* ChooseLocationViewController.swift */; };
 		B0BBCBB11DC84209006CF5BA /* curLocation in Resources */ = {isa = PBXBuildFile; fileRef = B0BBCBB01DC84209006CF5BA /* curLocation */; };
 		B0BBCBB81DC8FB31006CF5BA /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0BBCBB71DC8FB31006CF5BA /* FavoriteViewController.swift */; };
+		B0E976131DCAE28F0098432E /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0E976121DCAE28F0098432E /* AppConstants.swift */; };
+		B0E976151DCAE5D80098432E /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = B0E976141DCAE5D80098432E /* refresh.png */; };
+		B0E976181DCAE75C0098432E /* add.png in Resources */ = {isa = PBXBuildFile; fileRef = B0E976161DCAE75C0098432E /* add.png */; };
+		B0E976191DCAE75C0098432E /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = B0E976171DCAE75C0098432E /* delete.png */; };
 		B0F73D0D1DC7801B00B6F7E1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F73D0C1DC7801B00B6F7E1 /* LoginViewController.swift */; };
 		B0F73D0F1DC7802D00B6F7E1 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F73D0E1DC7802D00B6F7E1 /* SignupViewController.swift */; };
 		B0F73D111DC7805B00B6F7E1 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0F73D101DC7805A00B6F7E1 /* MapViewController.swift */; };
@@ -48,6 +52,10 @@
 		B0BBCBB21DC84671006CF5BA /* NearFriend-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NearFriend-Bridging-Header.h"; sourceTree = "<group>"; };
 		B0BBCBB61DC8BCE8006CF5BA /* NearFriend.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NearFriend.entitlements; sourceTree = "<group>"; };
 		B0BBCBB71DC8FB31006CF5BA /* FavoriteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
+		B0E976121DCAE28F0098432E /* AppConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		B0E976141DCAE5D80098432E /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
+		B0E976161DCAE75C0098432E /* add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add.png; sourceTree = "<group>"; };
+		B0E976171DCAE75C0098432E /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 		B0F73D0C1DC7801B00B6F7E1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B0F73D0E1DC7802D00B6F7E1 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		B0F73D101DC7805A00B6F7E1 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -125,10 +133,14 @@
 				B0F73D161DC79AB100B6F7E1 /* FriendListCell.swift */,
 				B0BBCBB71DC8FB31006CF5BA /* FavoriteViewController.swift */,
 				B0F73D121DC7807D00B6F7E1 /* MainViewController.swift */,
+				B0E976121DCAE28F0098432E /* AppConstants.swift */,
 				B0F73D0C1DC7801B00B6F7E1 /* LoginViewController.swift */,
 				B0F73D0E1DC7802D00B6F7E1 /* SignupViewController.swift */,
 				B0BBCBAA1DC82E0C006CF5BA /* ForgotPasswordViewController.swift */,
 				B0F73D101DC7805A00B6F7E1 /* MapViewController.swift */,
+				B0E976161DCAE75C0098432E /* add.png */,
+				B0E976171DCAE75C0098432E /* delete.png */,
+				B0E976141DCAE5D80098432E /* refresh.png */,
 				B0BBCBB01DC84209006CF5BA /* curLocation */,
 				B020E16C1DC61061001DA4FA /* Assets.xcassets */,
 				B020E16E1DC61061001DA4FA /* LaunchScreen.storyboard */,
@@ -210,7 +222,10 @@
 				B020E1701DC61061001DA4FA /* LaunchScreen.storyboard in Resources */,
 				B020E16D1DC61061001DA4FA /* Assets.xcassets in Resources */,
 				B0BBCBB11DC84209006CF5BA /* curLocation in Resources */,
+				B0E976181DCAE75C0098432E /* add.png in Resources */,
+				B0E976191DCAE75C0098432E /* delete.png in Resources */,
 				B020E16B1DC61061001DA4FA /* Main.storyboard in Resources */,
+				B0E976151DCAE5D80098432E /* refresh.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +291,7 @@
 				B0F73D131DC7807D00B6F7E1 /* MainViewController.swift in Sources */,
 				B0F73D111DC7805B00B6F7E1 /* MapViewController.swift in Sources */,
 				B0BBCBAB1DC82E0C006CF5BA /* ForgotPasswordViewController.swift in Sources */,
+				B0E976131DCAE28F0098432E /* AppConstants.swift in Sources */,
 				B0F73D171DC79AB100B6F7E1 /* FriendListCell.swift in Sources */,
 				B020E1661DC61061001DA4FA /* AppDelegate.swift in Sources */,
 				B0BBCBAD1DC82F17006CF5BA /* ChooseLocationViewController.swift in Sources */,
